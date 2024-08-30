@@ -7,6 +7,7 @@ import {
   ListItemText,
   Collapse,
   Divider,
+  useTheme,
 } from "@mui/material";
 import { Home, ExpandLess, ExpandMore } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
@@ -27,6 +28,7 @@ export default function Sidebar({ isOpen }) {
   const [openSubMenu, setOpenSubMenu] = React.useState({});
 
   const navigate = useNavigate();
+  const theme = useTheme();
 
   const toggleSubMenu = (menu) => {
     setOpenSubMenu((prevState) => ({
@@ -40,8 +42,7 @@ export default function Sidebar({ isOpen }) {
       sx={{
         width: isOpen ? 220 : 60,
         height: "100vh",
-        backgroundColor: "#212529",
-        color: "#ffffff",
+        backgroundColor: theme.palette.sidebar.bgColor,
         position: "fixed",
         paddingTop: "64px",
         transition: "width 0.3s",
@@ -50,20 +51,34 @@ export default function Sidebar({ isOpen }) {
       <List>
         <ListItemButton onClick={() => navigate("/home")} sx={listItemStyle}>
           <ListItemIcon>
-            <Home sx={{ color: "#ffffff" }} />
+            <Home sx={{ color: theme.palette.sidebar.iconColor }} />
           </ListItemIcon>
-          {isOpen && <ListItemText primary="Home" />}
+          {isOpen && (
+            <ListItemText
+              primary="Home"
+              sx={{ color: theme.palette.sidebar.textColor }}
+            />
+          )}
         </ListItemButton>
         <ListItemButton
           onClick={() => toggleSubMenu("employees")}
           sx={listItemStyle}
         >
           <ListItemIcon>
-            <PeopleAltIcon sx={{ color: "#ffffff" }} />
+            <PeopleAltIcon sx={{ color: theme.palette.sidebar.iconColor }} />
           </ListItemIcon>
-          {isOpen && <ListItemText primary="Employees" />}
+          {isOpen && (
+            <ListItemText
+              primary="Employees"
+              sx={{ color: theme.palette.sidebar.textColor }}
+            />
+          )}
           {isOpen &&
-            (openSubMenu["employees"] ? <ExpandLess /> : <ExpandMore />)}
+            (openSubMenu["employees"] ? (
+              <ExpandLess sx={{ color: theme.palette.sidebar.iconColor }} />
+            ) : (
+              <ExpandMore sx={{ color: theme.palette.sidebar.iconColor }} />
+            ))}
         </ListItemButton>
         {isOpen && (
           <Collapse in={openSubMenu["employees"]} timeout="auto" unmountOnExit>
@@ -73,34 +88,54 @@ export default function Sidebar({ isOpen }) {
                 onClick={() => navigate("/employee/all")}
               >
                 <ListItemIcon>
-                  <FormatListBulletedIcon sx={{ color: "#ffffff" }} />
+                  <FormatListBulletedIcon
+                    sx={{ color: theme.palette.sidebar.iconColor }}
+                  />
                 </ListItemIcon>
-                <ListItemText primary="List" />
+                <ListItemText
+                  primary="List"
+                  sx={{ color: theme.palette.sidebar.textColor }}
+                />
               </ListItemButton>
               <ListItemButton
                 sx={{ ...listItemStyle, pl: 4 }}
                 onClick={() => navigate("/employee/add")}
               >
                 <ListItemIcon>
-                  <AddIcon sx={{ color: "#ffffff" }} />
+                  <AddIcon sx={{ color: theme.palette.sidebar.iconColor }} />
                 </ListItemIcon>
-                <ListItemText primary="Create" />
+                <ListItemText
+                  primary="Create"
+                  sx={{ color: theme.palette.sidebar.textColor }}
+                />
               </ListItemButton>
             </List>
           </Collapse>
         )}
         <ListItemButton onClick={() => navigate("/setting")} sx={listItemStyle}>
           <ListItemIcon>
-            <SettingsIcon sx={{ color: "#ffffff" }} />
+            <SettingsIcon sx={{ color: theme.palette.sidebar.iconColor }} />
           </ListItemIcon>
-          {isOpen && <ListItemText primary="Settings" />}
+          {isOpen && (
+            <ListItemText
+              primary="Settings"
+              sx={{ color: theme.palette.sidebar.textColor }}
+            />
+          )}
         </ListItemButton>
-        <Divider sx={{ backgroundColor: "#ffffff", m: 2 }} />
+        <Divider
+          sx={{ backgroundColor: theme.palette.sidebar.textColor, m: 2 }}
+        />
         <ListItemButton onClick={() => navigate("/login")} sx={listItemStyle}>
           <ListItemIcon>
-            <LogoutIcon sx={{ color: "#ffffff" }} />
+            <LogoutIcon sx={{ color: theme.palette.sidebar.iconColor }} />
           </ListItemIcon>
-          {isOpen && <ListItemText primary="Logout" />}
+          {isOpen && (
+            <ListItemText
+              primary="Logout"
+              sx={{ color: theme.palette.sidebar.textColor }}
+            />
+          )}
         </ListItemButton>
       </List>
     </Box>

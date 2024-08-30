@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useNavigate } from "react-router-dom";
+import { useThemeContext } from "./ThemeContext";
 
 const settings = ["Profile", "Logout"];
 
@@ -19,18 +20,13 @@ export default function NavBar({ toggleSidebar, isOpen }) {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [activeSetting, setActiveSetting] = React.useState("");
   const navigate = useNavigate();
+  const { prjTitle } = useThemeContext();
 
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
 
   const handleCloseUserMenu = (settingName) => {
-    console.log(
-      "inside handleCloseNavMenu ....",
-      settingName,
-      "....",
-      activeSetting
-    );
     if (settingName !== activeSetting) {
       setActiveSetting(settingName);
       if (settingName === "Logout") {
@@ -53,7 +49,7 @@ export default function NavBar({ toggleSidebar, isOpen }) {
           <MenuIcon />
         </IconButton>
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          A-KEE
+          {prjTitle}
         </Typography>
         <Box sx={{ flexGrow: 0 }}>
           <Tooltip title="Open settings">

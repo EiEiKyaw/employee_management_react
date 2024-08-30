@@ -19,8 +19,17 @@ export default function AppSettingsDetail({ open, onClose, onSave, setting }) {
     fieldCode: "",
     fieldValue: "",
   });
-  const { setThemeColor, setThemeBgColor, setIconColor, setTitle } =
-    useThemeContext();
+  const {
+    setThemeColor,
+    setThemeBgColor,
+    setIconColor,
+    setPrjTitle,
+    setSbColor,
+    setSbBgColor,
+    setAbBgColor,
+    setAbColor,
+    setHeaderColor,
+  } = useThemeContext();
 
   useEffect(() => {
     if (setting) {
@@ -48,8 +57,14 @@ export default function AppSettingsDetail({ open, onClose, onSave, setting }) {
       if (formData.fieldCode === "themeColor")
         setThemeColor(formData.fieldValue);
       if (formData.fieldCode === "iconColor") setIconColor(formData.fieldValue);
+      if (formData.fieldCode === "sbColor") setSbColor(formData.fieldValue);
+      if (formData.fieldCode === "sbBgColor") setSbBgColor(formData.fieldValue);
+      if (formData.fieldCode === "abColor") setAbColor(formData.fieldValue);
+      if (formData.fieldCode === "abBgColor") setAbBgColor(formData.fieldValue);
+      if (formData.fieldCode === "headerColor")
+        setHeaderColor(formData.fieldValue);
     } else if (formData.type === "Normal") {
-      if (formData.fieldCode === "title") setTitle(formData.fieldValue);
+      if (formData.fieldCode === "prjTitle") setPrjTitle(formData.fieldValue);
     }
 
     console.log("saved ..... ", { ...formData });
