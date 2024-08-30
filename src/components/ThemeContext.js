@@ -78,7 +78,7 @@ export function ThemeProviderWrapper({ children }) {
             bgColor: sbBgColor,
           },
           genText: {
-            primary: themeColor,
+            primary: themeBgColor,
           },
         },
       }),
