@@ -16,6 +16,7 @@ import {
 } from "@mui/material";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { signInWithGooglePopup } from "../utils/firebase";
 
 export default function BasicCard() {
   const navigate = useNavigate();
@@ -25,6 +26,14 @@ export default function BasicCard() {
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
+  };
+
+  const logGoogleUser = async () => {
+    const response = await signInWithGooglePopup();
+    if (response) {
+      console.log("Logged in user:", response);
+      navigate("/"); // Redirect to the home page or desired route after successful login
+    }
   };
 
   return (
@@ -117,9 +126,7 @@ export default function BasicCard() {
               variant="contained"
               color="primary"
               type="submit"
-              onClick={() => {
-                navigate("/");
-              }}
+              onClick={logGoogleUser}
               sx={{ width: "100%" }}
             >
               Login
