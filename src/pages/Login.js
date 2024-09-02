@@ -7,16 +7,26 @@ import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import {
   CardHeader,
+  Chip,
+  Divider,
   FormControl,
   IconButton,
   InputAdornment,
   InputLabel,
   OutlinedInput,
+  Paper,
+  Stack,
+  styled,
   Typography,
 } from "@mui/material";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { signInWithGooglePopup } from "../utils/firebase";
+import {
+  signInWithGooglePopup,
+  signInWithGitHubPopup,
+} from "../utils/firebase";
+import googleIcon from "../images/google.png";
+import githubIcon from "../images/github.png";
 
 export default function BasicCard() {
   const navigate = useNavigate();
@@ -28,13 +38,36 @@ export default function BasicCard() {
     event.preventDefault();
   };
 
-  const logGoogleUser = async () => {
+  const signInWithGoogle = async () => {
     const response = await signInWithGooglePopup();
     if (response) {
-      console.log("Logged in user:", response);
-      navigate("/"); // Redirect to the home page or desired route after successful login
+      console.log("Logged in user:", response.email);
+      navigate("/");
     }
   };
+
+  const signInWithGitHub = async () => {
+    try {
+      const response = await signInWithGitHubPopup();
+      if (response) {
+        console.log("Logged in github user:", response);
+        navigate("/");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const Item = styled(Paper)(({ theme }) => ({
+    backgroundColor: "#fff",
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    textAlign: "center",
+    color: theme.palette.text.secondary,
+    ...theme.applyStyles("dark", {
+      backgroundColor: "#1A2027",
+    }),
+  }));
 
   return (
     <>
@@ -120,17 +153,58 @@ export default function BasicCard() {
             sx={{
               width: "100%",
               justifyContent: "center",
+              flexDirection: "column",
+              alignItems: "center",
             }}
           >
             <Button
               variant="contained"
               color="primary"
               type="submit"
-              onClick={logGoogleUser}
               sx={{ width: "100%" }}
             >
               Login
             </Button>
+            <Divider sx={{ width: "100%" }}>
+              <Chip label="Or" size="small" sx={{ my: 2 }} />
+            </Divider>
+            <Stack
+              spacing={{ xs: 1, sm: 2 }}
+              direction="row"
+              useFlexGap
+              sx={{ flexWrap: "wrap" }}
+            >
+              <Item
+                sx={{
+                  boxShadow: "none",
+                  "&:hover": {
+                    boxShadow: "none",
+                  },
+                }}
+                onClick={signInWithGoogle}
+              >
+                <img
+                  src={googleIcon}
+                  alt="Google Icon"
+                  style={{ width: "30px", height: "30px" }}
+                />
+              </Item>
+              <Item
+                sx={{
+                  boxShadow: "none",
+                  "&:hover": {
+                    boxShadow: "none",
+                  },
+                }}
+                onClick={signInWithGitHub}
+              >
+                <img
+                  src={githubIcon}
+                  alt="Github Icon"
+                  style={{ width: "30px", height: "30px" }}
+                />
+              </Item>
+            </Stack>
           </CardActions>
         </Card>
       </Box>
